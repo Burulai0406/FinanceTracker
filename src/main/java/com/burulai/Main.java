@@ -4,28 +4,20 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.net.URL;
-
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage primaryStage) {
         TransactionRepository repository = new FileTransactionRepository("transactions.txt");
         TransactionService service = new TransactionService(repository);
-        MainView view = new MainView(service);
+        MainView mainView = new MainView(service);
 
-        Scene scene = new Scene(view.getRoot(), 1200, 760);
+        Scene scene = new Scene(mainView.getRoot(), 1000, 650);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
-        URL css = Main.class.getResource("/styles.css");
-        if (css != null) {
-            scene.getStylesheets().add(css.toExternalForm());
-        }
-
-        stage.setTitle("Finance Tracker");
-        stage.setScene(scene);
-        stage.setMinWidth(1000);
-        stage.setMinHeight(650);
-        stage.show();
+        primaryStage.setTitle("Finance Tracker");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static void main(String[] args) {

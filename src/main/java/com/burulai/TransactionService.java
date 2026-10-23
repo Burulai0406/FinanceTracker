@@ -1,86 +1,60 @@
 package com.burulai;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TransactionService {
-
     private final TransactionRepository repository;
-    private final ArrayList<Transaction> transactions;
+    private List<Transaction> transactions;
 
     public TransactionService(TransactionRepository repository) {
         this.repository = repository;
-        this.transactions = new ArrayList<>(repository.load());
-    }
-
-    public void addTransaction(String description, double amount,
-                               TransactionType type, Category category,
-                               LocalDate date) {
-        transactions.add(new Transaction(description, amount, type, category, date));
-        repository.save(transactions);
-    }
-
-    public boolean deleteTransaction(Transaction transaction) {
-        boolean removed = transactions.remove(transaction);
-
-        if (removed) {
-            repository.save(transactions);
-        }
-
-        return removed;
+        this.transactions = repository.load();
     }
 
     public List<Transaction> getTransactions() {
-        return Collections.unmodifiableList(transactions);
+        return transactions;
     }
 
-    public double calculateBalance() {
-        double balance = 0;
+    public void addTransaction(String description, double amount, TransactionType type, Category category, java.time.LocalDate date) {
+        Transaction transaction = new Transaction(description, amount, type, category, date);
+        transactions.add(transaction);
+        repository.save(transactions);
+    }
 
-        for (Transaction transaction : transactions) {
-            balance += transaction.getSignedAmount();
-        }
-
-        return balance;
+    public void deleteTransaction(Transaction transaction) {
+        transactions.remove(transaction);
+        repository.save(transactions);
     }
 
     public double calculateTotal(TransactionType type) {
         double total = 0;
-
-        for (Transaction transaction : transactions) {
-            if (transaction.getType() == type) {
-                total += transaction.getAmount();
+        for (Transaction t : transactions) {
+            if (t.getType() == type) {
+                total += t.getAmount();
             }
         }
-
         return total;
     }
 
     public double calculateExpenseByCategory(Category category) {
         double total = 0;
-
-        for (Transaction transaction : transactions) {
-            if (!transaction.isIncome() && transaction.getCategory() == category) {
-                total += transaction.getAmount();
+        for (Transaction t : transactions) {
+            if (t.getCategory() == category && t.getType() == TransactionType.EXPENSE) {
+                total += t.getAmount();
             }
         }
-
         return total;
     }
 
-    public double calculateTotalByMonth(YearMonth month, TransactionType type) {
+    public double calculateTotalByMonth(YearMonth yearMonth, TransactionType type) {
         double total = 0;
-
-        for (Transaction transaction : transactions) {
-            boolean sameMonth = YearMonth.from(transaction.getDate()).equals(month);
-            if (sameMonth && transaction.getType() == type) {
-                total += transaction.getAmount();
+        for (Transaction t : transactions) {
+            YearMonth tMonth = YearMonth.from(t.getDate());
+            if (tMonth.equals(yearMonth) && t.getType() == type) {
+                total += t.getAmount();
             }
         }
-
         return total;
     }
 }

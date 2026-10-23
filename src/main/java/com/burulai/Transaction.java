@@ -1,6 +1,7 @@
 package com.burulai;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Transaction {
     private String description;
@@ -65,5 +66,22 @@ public class Transaction {
         }
 
         this.amount = amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return Double.compare(that.amount, amount) == 0 &&
+                Objects.equals(description, that.description) &&
+                type == that.type &&
+                category == that.category &&
+                Objects.equals(date, that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, amount, type, category, date);
     }
 }
