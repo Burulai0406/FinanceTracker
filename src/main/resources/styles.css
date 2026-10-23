@@ -1,0 +1,163 @@
+.root {
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #f4f6fb;
+}
+
+.app-title {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-padding: 16 20 16 20;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 10, 0, 0, 2);
+}
+
+.card-title {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12px;
+}
+
+.card-value {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.card-value.income {
+    -fx-text-fill: #059669;
+}
+
+.card-value.expense {
+    -fx-text-fill: #dc2626;
+}
+
+.card-value.negative {
+    -fx-text-fill: #dc2626;
+}
+
+.panel {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 10, 0, 0, 2);
+}
+
+.panel-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.field-label {
+    -fx-text-fill: #6b7280;
+    -fx-font-size: 12px;
+    -fx-padding: 6 0 0 0;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #d1d5db;
+    -fx-border-radius: 8;
+    -fx-padding: 8 10 8 10;
+}
+
+.text-field:focused {
+    -fx-border-color: #4f46e5;
+}
+
+.primary-button {
+    -fx-background-color: #4f46e5;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 10 16 10 16;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #4338ca;
+}
+
+.danger-button {
+    -fx-background-color: #fee2e2;
+    -fx-text-fill: #b91c1c;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+}
+
+.danger-button:hover {
+    -fx-background-color: #fecaca;
+}
+
+.danger-button:disabled {
+    -fx-opacity: 0.45;
+}
+
+.toggle-income,
+.toggle-expense {
+    -fx-background-color: #e5e7eb;
+    -fx-text-fill: #374151;
+    -fx-font-weight: bold;
+    -fx-padding: 8 0 8 0;
+    -fx-cursor: hand;
+}
+
+.toggle-expense {
+    -fx-background-radius: 8 0 0 8;
+}
+
+.toggle-income {
+    -fx-background-radius: 0 8 8 0;
+}
+
+.toggle-expense:selected {
+    -fx-background-color: #dc2626;
+    -fx-text-fill: white;
+}
+
+.toggle-income:selected {
+    -fx-background-color: #059669;
+    -fx-text-fill: white;
+}
+
+.error-label {
+    -fx-text-fill: #dc2626;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #e5e7eb;
+    -fx-border-radius: 8;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f9fafb;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #374151;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell {
+    -fx-cell-size: 38px;
+}
+
+.amount-income {
+    -fx-text-fill: #059669;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER-RIGHT;
+}
+
+.amount-expense {
+    -fx-text-fill: #dc2626;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER-RIGHT;
+}

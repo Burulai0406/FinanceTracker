@@ -1,12 +1,43 @@
 package com.burulai;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TransactionService {
 
-    public static double calculateBalance(
-            ArrayList<Transaction> transactions) {
+    private final TransactionRepository repository;
+    private final ArrayList<Transaction> transactions;
 
+    public TransactionService(TransactionRepository repository) {
+        this.repository = repository;
+        this.transactions = new ArrayList<>(repository.load());
+    }
+
+    public void addTransaction(String description, double amount,
+                               TransactionType type, Category category,
+                               LocalDate date) {
+        transactions.add(new Transaction(description, amount, type, category, date));
+        repository.save(transactions);
+    }
+
+    public boolean deleteTransaction(Transaction transaction) {
+        boolean removed = transactions.remove(transaction);
+
+        if (removed) {
+            repository.save(transactions);
+        }
+
+        return removed;
+    }
+
+    public List<Transaction> getTransactions() {
+        return Collections.unmodifiableList(transactions);
+    }
+
+    public double calculateBalance() {
         double balance = 0;
 
         for (Transaction transaction : transactions) {
@@ -16,39 +47,40 @@ public class TransactionService {
         return balance;
     }
 
-    public static void showTransactions(
-            ArrayList<Transaction> transactions) {
-
-        System.out.println("\n=== All Transactions ===");
+    public double calculateTotal(TransactionType type) {
+        double total = 0;
 
         for (Transaction transaction : transactions) {
-            System.out.println("Description: " + transaction.getDescription());
-            System.out.println("Amount: " + transaction.getAmount());
-            System.out.println("Type: " +
-                    (transaction.isIncome() ? "Income" : "Expense"));
-            System.out.println("--------------------");
+            if (transaction.getType() == type) {
+                total += transaction.getAmount();
+            }
         }
+
+        return total;
     }
 
+    public double calculateExpenseByCategory(Category category) {
+        double total = 0;
 
-    public static void addTransaction(
-            String description,
-            double amount,
-            boolean isIncome,
-            ArrayList<Transaction> transactions) {
-
-        if (amount > 0) {
-            Transaction transaction =
-                    new Transaction(description, amount, isIncome);
-
-            transactions.add(transaction);
-            TransactionRepository.saveTransactions(transactions);
-
-            System.out.println("Transaction added successfully!");
-        } else {
-            System.out.println("Amount must be greater than 0!");
+        for (Transaction transaction : transactions) {
+            if (!transaction.isIncome() && transaction.getCategory() == category) {
+                total += transaction.getAmount();
+            }
         }
+
+        return total;
     }
 
+    public double calculateTotalByMonth(YearMonth month, TransactionType type) {
+        double total = 0;
 
+        for (Transaction transaction : transactions) {
+            boolean sameMonth = YearMonth.from(transaction.getDate()).equals(month);
+            if (sameMonth && transaction.getType() == type) {
+                total += transaction.getAmount();
+            }
+        }
+
+        return total;
+    }
 }
